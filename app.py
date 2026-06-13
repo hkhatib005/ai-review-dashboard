@@ -34,7 +34,7 @@ def index():
 @app.route("/api/stats")
 def stats():
     prs = get_pull_requests()
-    stats = get_repo_stats()
+    repo_stats = get_repo_stats()
     total_prs = len(prs)
     reviewed_prs = 0
     total_comments = 0
@@ -45,7 +45,7 @@ def stats():
             reviewed_prs += 1
             total_comments += len(comments)
             recent_reviews.append({"pr_number": pr["number"], "title": pr["title"], "author": pr["user"]["login"], "state": pr["state"], "comments": len(comments), "url": pr["html_url"], "created_at": pr["created_at"][:10]})
-    return jsonify({"total_prs": total_prs, "reviewed_prs": reviewed_prs, "total_comments": total_comments, "stars": stats.get("stargazers_count", 0), "recent_reviews": recent_reviews[:10]})
+    return jsonify({"total_prs": total_prs, "reviewed_prs": reviewed_prs, "total_comments": total_comments, "stars": repo_stats.get("stargazers_count", 0), "recent_reviews": recent_reviews[:10]})
 
 @app.route("/api/health")
 def health():
